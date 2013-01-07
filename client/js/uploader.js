@@ -33,7 +33,7 @@ qq.FineUploader = function(o){
             '</div>',
 
         // template for one item in file list
-        fileTemplate: '<li>' +
+        fileTemplate: '<li id={fileId}>' +
             '<div class="qq-progress-bar"></div>' +
             '<span class="qq-upload-spinner"></span>' +
             '<span class="qq-upload-finished"></span>' +
@@ -343,7 +343,8 @@ qq.extend(qq.FineUploader.prototype, {
         return false;
     },
     _addToList: function(id, fileName){
-        var item = qq.toElement(this._options.fileTemplate);
+        var template = this._options.fileTemplate.replace(/\{fileId\}/g, "file-" + id);
+        var item = qq.toElement(template);
         if (this._options.disableCancelForFormUploads && !qq.isXhrUploadSupported()) {
             var cancelLink = this._find(item, 'cancel');
             qq(cancelLink).remove();
